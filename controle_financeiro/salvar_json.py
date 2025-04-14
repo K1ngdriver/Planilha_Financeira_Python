@@ -20,3 +20,20 @@ def carregar_transacoes():
     else:
         #Se o arquivo não existir, também retorna uma lista vazia
         return []
+
+def salvar_transacoes(transacao):
+    import json
+    import os
+
+    #definindo o caminho do arquivo
+    caminho_arquivo = os.path.json("dados","transacoes.json")
+
+    # Primeiro, tentamos carregar as transações existentes (usando a função que já criamos)
+    transacoes_existentes = carregar_transacoes()
+
+    # Adiciona a nova transação à lista
+    transacoes_existentes.append(transacao)
+
+    # Agora salvamos toda a lista atualizada no arquivo JSON
+    with open(caminho_arquivo, "w", encoding="utf-8") as arquivo:
+        json.dump(transacoes_existentes, arquivo, indent=4, ensure_ascii=False)
