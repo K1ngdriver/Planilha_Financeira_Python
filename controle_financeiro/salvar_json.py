@@ -4,7 +4,10 @@ import os
 def carregar_transacoes():
 
     #Caminho até o arquivo JSON onde vamos salvar os dados
-    caminho_arquivo = os.path.json("dados","transacoes.json")
+    caminho_arquivo = os.path.join("dados","transacoes.json")
+
+    os.makedirs("dados", exist_ok=True)
+
 
     #Verifica se o arquivo já existe
     if os.path.exists(caminho_arquivo):
@@ -26,7 +29,7 @@ def salvar_transacoes(transacao):
     import os
 
     #definindo o caminho do arquivo
-    caminho_arquivo = os.path.json("dados","transacoes.json")
+    caminho_arquivo = os.path.join("dados","transacoes.json")
 
     # Primeiro, tentamos carregar as transações existentes (usando a função que já criamos)
     transacoes_existentes = carregar_transacoes()
