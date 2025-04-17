@@ -1,5 +1,6 @@
 import json
 import os
+from datetime import datetime
 
 def carregar_transacoes():
 
@@ -25,8 +26,6 @@ def carregar_transacoes():
         return []
 
 def salvar_transacoes(transacao):
-    import json
-    import os
 
     #definindo o caminho do arquivo
     caminho_arquivo = os.path.join("dados","transacoes.json")
@@ -40,3 +39,31 @@ def salvar_transacoes(transacao):
     # Agora salvamos toda a lista atualizada no arquivo JSON
     with open(caminho_arquivo, "w", encoding="utf-8") as arquivo:
         json.dump(transacoes_existentes, arquivo, indent=4, ensure_ascii=False)
+
+def mes_atual():
+    caminho_arquivo = os.path.join("dados", "transacoes.json")
+
+    if not os.path.join(caminho_arquivo):
+        print("Nenhum dado existente.")
+        return[]
+    with open(caminho_arquivo, "r", encoding="utf-8") as arquivo:
+        try:
+            transacoes = json.load(arquivo)
+        except json.JSONDecodeError:
+            print("Erro ao ler o arquivo JSON.")
+            return []
+        
+    hoje = datetime.today()
+    ano_atual = hoje.year()
+    mes_atual = hoje.month()
+
+    transacoes_filtradas = []
+
+    for transacao in transacoes:
+        try:
+            data = datetime.strptime(transacao["data"], "%Y-%m-%d")
+            if data.year == ano_atual and data.month == mes_atual:
+                transacoes_filtradas.append(transacao)
+        except Exception as e:
+            print(f"Erro ao processar transação: {e}")
+    return transacoes_filtradas
